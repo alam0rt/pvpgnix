@@ -55,9 +55,10 @@ let cfg = config.services.pvpgn; in {
 
         # firewall
         networking.firewall = lib.mkIf config.services.pvpgn.openFirewall {
-          allowedUDPPorts = [ 6112 ];
+          allowedUDPPorts = [ 6112 6200 ];
           allowedTCPPorts = [
             6112
+            6200 # confirm
           ];
         }; 
     };
