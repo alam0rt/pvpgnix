@@ -18,13 +18,11 @@
         name = "pvpgn-server";
         version = "1.99.7.2.1";
       in {
-        
-        overlays.default = [];
 
         nixosModules.default = { config, pkgs, lib, ... }: {
           imports = [ ./nixos-module.nix ];
           config = lib.mkIf config.services.pvpgn.enable {
-            nixpkgs.overlays = [ self.overlays.default ];
+            # nixpkgs.overlays = [ self.overlays.default ]; # work out how to enable
             services.pvpgn.package = lib.mkDefault self.packages.${system}.default;
           };
         };
