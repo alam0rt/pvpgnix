@@ -4,6 +4,12 @@ let cfg = config.services.pvpgn; in {
         services.pvpgn = {
             enable = lib.mkEnableOption "Enable the Battle.NET daemon";
 
+            package = lib.mkOption {
+                description = "pvpgn package to use";
+                type = lib.types.package;
+            };
+
+
             logFile = lib.mkOption rec {
                 type = lib.types.str;
                 default = "/dev/stdout";
