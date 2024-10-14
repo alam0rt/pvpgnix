@@ -60,10 +60,15 @@
               sha256 = "sha256-6cY8Q2/fVs2swO1lvMK4vzDE4cU+JAtNhtXNrJwuS/w=";
             };
             postInstall = ''
-              sed -i 's#^logfile.*#logfile = "/dev/stdout"#g' $out/etc/pvpgn/bnetd.conf
-              sed -i 's#^storage_path.*#storage_path = "sql:mode=sqlite3;name=/tmp/users.db;default=0;prefix=pvpgn_"#g' $out/etc/pvpgn/bnetd.conf
-              sed -i 's#^ladderdir.*#ladderdir = "/tmp/ladders"#g' $out/etc/pvpgn/bnetd.conf
-              sed -i 's#^statusdir.*#statusdir = "/tmp/status"#g' $out/etc/pvpgn/bnetd.conf
+              # log to stdout
+              sed -i 's#^logfile.*#logfile = "/var/log/bnetd.log"#g' $out/etc/pvpgn/bnetd.conf
+
+              # configure sqlite3
+              sed -i 's#^storage_path.*#storage_path = "sql:mode=sqlite3;name=/srv/data/pvpgn/users.db;default=0;prefix=pvpgn_"#g' $out/etc/pvpgn/bnetd.conf
+
+              # ensure configuration files point to variable data on the rootfs
+              # todo - allow this to be configured
+              find $out/etc/pvpgn -type f -name \*.conf -print0 | xargs -0 sed -i 's#/nix/store.*/var#/srv/data#'
             '';
             nativeBuildInputs = [cmake gcc perl lua zlib sqlite];
           });
