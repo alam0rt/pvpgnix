@@ -1,7 +1,7 @@
 { pkgs, config, lib, ... }:
 let cfg = config.services.pvpgn; in {
     options = {
-        services.bnetd = {
+        services.pvpgn = {
             enable = lib.mkEnableOption "Enable the Battle.NET daemon";
 
             logFile = lib.mkOption rec {
@@ -9,7 +9,7 @@ let cfg = config.services.pvpgn; in {
                 default = "/dev/stdout";
                 description = "Path to the log file for pvpgn. Use stdout to print into the journal";
             };
-            
+
             database.type = lib.mkOption rec {
                 type = lib.types.str;
                 default = "sqlite3";
