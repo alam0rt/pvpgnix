@@ -86,6 +86,7 @@
               sed -i 's#^logfile.*#logfile = "/dev/stdout"#g' $out/etc/pvpgn/bnetd.conf
               sed -i 's#^storage_path.*#storage_path = "sql:mode=sqlite3;name=/tmp/users.db;default=0;prefix=pvpgn_"#g' $out/etc/pvpgn/bnetd.conf
               sed -i 's#^ladderdir.*#ladderdir = "/tmp/ladders"#g' $out/etc/pvpgn/bnetd.conf
+              sed -i 's#^statusdir.*#statusdir = "/tmp/status"#g' $out/etc/pvpgn/bnetd.conf
             '';
             nativeBuildInputs = [cmake gcc perl lua zlib sqlite];
           });
