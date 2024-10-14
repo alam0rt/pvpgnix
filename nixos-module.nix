@@ -28,7 +28,7 @@ let cfg = config.services.pvpgn; in {
         systemd.services.pvpgn = {
         name = "bnetd";
         after = ["network.target"];
-        serviceConfig.ExecStart = "${pkgs.pvpgn}/sbin/bnetd -f";
+        serviceConfig.ExecStart = "bnetd -f";
         };
     }; 
 }
