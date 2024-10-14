@@ -32,7 +32,6 @@ let cfg = config.services.pvpgn; in {
 
     config = lib.mkIf config.services.pvpgn.enable {
         systemd.services.bnetd = {
-            name = "bnetd";
             after = ["network.target"];
             serviceConfig.ExecStart = "bnetd -f";
         };
