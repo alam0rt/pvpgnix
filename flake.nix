@@ -22,7 +22,7 @@
           imports = [ ./nixos-module.nix ];
           config = lib.mkIf config.services.pvpgn.enable {
             nixpkgs.overlays = [ self.overlays.default ];
-            services.pvpgn.package = lib.mkDefault pkgs.pvpgn;
+            services.pvpgn.package = lib.mkDefault self.packages.${system}.default;
           };
         };
         packages = {
