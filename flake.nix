@@ -21,19 +21,20 @@
         nixosModules.default = 
           { config, pkgs, lib, ... }: {
             options = {
-              services.pvpgn = {
-                enable = lib.mkEnableOption "pvpgn"; # better description
-                logFile = lib.mkOption {
+              pvpgn.services.bnetd = {
+                enable = lib.mkEnableOption "Enable the Battle.NET daemon";
+
+                logFile = lib.mkOption rec {
                   type = lib.types.str;
-                  default = "/dev/stdout"; # 
+                  default = "/dev/stdout";
                   description = "Path to the log file for pvpgn. Use stdout to print into the journal";
                 };
-                database.type = lib.mkOption {
+                database.type = lib.mkOption rec {
                   type = lib.types.str;
                   default = "sqlite3";
                   description = "The type of database that bnetd should connect to.";
                 };
-                database.sqlitePath = lib.mkOption {
+                database.sqlitePath = lib.mkOption rec {
                   type = lib.types.str;
                   default = "/tmp/users.db";
                   description = "The type of database that bnetd should connect to.";
