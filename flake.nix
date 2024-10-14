@@ -19,7 +19,7 @@
         version = "1.99.7.2.1";
       in {
         nixosModules.default = { config, pkgs, lib, ... }: {
-          imports = ["./nixos-module.nix"];
+          imports = [ ./nixos-module.nix ];
           config = lib.mkIf config.services.pvpgn.enable {
             nixpkgs.overlays = [ self.overlays.default ];
             services.pvpgn.package = lib.mkDefault pkgs.pvpgn;
