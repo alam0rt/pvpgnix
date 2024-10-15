@@ -444,6 +444,14 @@ in {
               ExecStart = "${pvpgn}/sbin/bnetd -f -c /etc/pvpgn/bnetd.conf";
               User = config.services.pvpgn.user;
               Group = config.services.pvpgn.group;
+              X-Restart-Triggers = [ 
+                "${config.environment.etc."newsfile".source}" 
+                "${config.environment.etc."motdfile".source}" 
+                "${config.environment.etc."motdw3file".source}" 
+                "${config.environment.etc."newaccountfile".source}" 
+                "${config.environment.etc."tosfile".source}" 
+                "${config.environment.etc."bnetd".source}" 
+              ]; 
             };
         };
         users.users.${config.services.pvpgn.user} =
