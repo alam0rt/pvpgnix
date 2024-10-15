@@ -66,7 +66,7 @@ in {
               };
               logFile = lib.mkOption {
                 type = lib.types.str;
-                default = "/dev/stdout";
+                default = "/var/log/bnetd.log";
                 description = "Path to the log file for pvpgn. Use stdout to print into the journal";
               };
             };
