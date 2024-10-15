@@ -3,7 +3,7 @@ let
     name = "pvpgn";
     cfg = config.services.pvpgn;
     generators = lib.generators;
-
+    pvpgn = config.packages.default;
 
     toConf = generators.toKeyValue {
       mkKeyValue = generators.mkKeyValueDefault {
@@ -66,6 +66,12 @@ in {
               };
             };
 
+            news = lib.mkOption {
+              type = lib.type.str;
+              default = builtins.readFile ./config/i18n/news.txt;
+              description = "The news announcement displayed when a user logs in";
+            };
+
             database.type = lib.mkOption rec {
                 type = lib.types.str;
                 default = "sqlite3";
@@ -86,6 +92,12 @@ in {
             i18n = {
               target = "pvpgn/i18n";
               source = ./config/i18n;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            news = {
+              target = "pvpgn/i18n/news.txt";
+              text = cfg.news;
               user = cfg.user;
               group = cfg.group;
             };
@@ -199,7 +211,7 @@ in {
             };
             bnalias = {
               target = "pvpgn/bnalias.conf";
-              source = ./config/bnalias.conf;
+              source = ${pvpgn}/etc/pvpgn/bnalias.conf;
               user = cfg.user;
               group = cfg.group;
             };
