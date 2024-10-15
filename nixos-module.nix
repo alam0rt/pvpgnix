@@ -4,8 +4,35 @@ let
     cfg = config.services.pvpgn;
     generators = lib.generators;
 
+      mkValueStringPVPGN = {}: v:
+        let err = t: v: abort
+            ("generators.mkValueStringDefault: " +
+            "${t} not supported: ${toPretty {} v}");
+            in   if isInt      v then toString v
+            # convert derivations to store paths
+            else if isDerivation v then toString v
+            # we default to not quoting strings
+            else if isString   v then v
+            # isString returns "1", which is not a good default
+            else if true  ==   v then "true"
+            # here it returns to "", which is even less of a good default
+            else if false ==   v then "false"
+            else if null  ==   v then "null"
+            # if you have lists you probably want to replace this
+            else if isList     v then err "lists" v
+            # same as for lists, might want to replace
+            else if isAttrs    v then err "attrsets" v
+            # functions can’t be printed of course
+            else if isFunction v then err "functions" v
+            # Floats currently can't be converted to precise strings,
+            # condition warning on nix version once this isn't a problem anymore
+            # See https://github.com/NixOS/nix/pull/3480
+            else if isFloat    v then floatToString v
+            else err "this value is" (toString v);
+
     toConf = generators.toKeyValue {
-      mkKeyValue = generators.mkKeyValueDefault {} " = ";
+      mkKeyValue = mkKeyValueDefault {} " = ";
+      mkValueString = mkValueStringPVPGN;
     };
 in {
     options = {
