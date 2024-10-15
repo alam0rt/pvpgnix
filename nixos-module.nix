@@ -13,6 +13,8 @@ let
 		    else if lib.isDerivation v then toString v
 		    # we default to not quoting strings
                     else if lib.isString v && lib.hasInfix " " v then "\"${v}\""
+                    # empty string should return ""
+                    else if lib.isString v && "" == v then "\"\""
 		    else if lib.isString   v then v
 		    # isString returns "1", which is not a good default
 		    else if true  ==   v then "true"
