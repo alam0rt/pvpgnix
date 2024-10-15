@@ -87,9 +87,129 @@ in {
               user = cfg.user;
               group = cfg.group;
             };
-            all = {
-              target = "pvpgn";
-              source = ./config;
+            address_translation = {
+              target = "pvpgn/address_translation.conf";
+              source = ./config/address_translation.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            anongame_infos = {
+              target = "pvpgn/anongame_infos.conf";
+              source = ./config/anongame_infos.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            bnmaps = {
+              target = "pvpgn/bnmaps.conf";
+              source = ./config/bnmaps.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            d2dbs = {
+              target = "pvpgn/d2dbs.conf";
+              source = ./config/d2dbs.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            icons = {
+              target = "pvpgn/icons.conf";
+              source = ./config/icons.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            sql_DB_layout = {
+              target = "pvpgn/sql_DB_layout.conf";
+              source = ./config/sql_DB_layout.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            bnxplevel = {
+              target = "pvpgn/bnxplevel.conf";
+              source = ./config/bnxplevel.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            bnxpcalc = {
+              target = "pvpgn/bnxpcalc.conf";
+              source = ./config/bnxpcalc.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            d2cs = {
+              target = "pvpgn/d2cs.conf";
+              source = ./config/d2cs.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            bnetd_default_user = {
+              target = "pvpgn/bnetd_default_user.plain";
+              source = ./config/bnetd_default_user.plain;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            realm = {
+              target = "pvpgn/realm.conf";
+              source = ./config/realm.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            command_groups = {
+              target = "pvpgn/command_groups.conf";
+              source = ./config/command_groups.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            ad = {
+              target = "pvpgn/ad.json";
+              source = ./config/ad.json;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            autoupdate = {
+              target = "pvpgn/autoupdate.conf";
+              source = ./config/autoupdate.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            tournament = {
+              target = "pvpgn/tournament.conf";
+              source = ./config/tournament.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            supportfile = {
+              target = "pvpgn/supportfile.conf";
+              source = ./config/supportfile.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            versioncheck = {
+              target = "pvpgn/versioncheck.json";
+              source = ./config/versioncheck.json;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            topics = {
+              target = "pvpgn/topics.conf";
+              source = ./config/topics.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            bnalias = {
+              target = "pvpgn/bnalias.conf";
+              source = ./config/bnalias.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            channel = {
+              target = "pvpgn/channel.conf";
+              source = ./config/channel.conf;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            bnban = {
+              target = "pvpgn/bnban.conf";
+              source = ./config/bnban.conf;
               user = cfg.user;
               group = cfg.group;
             };
