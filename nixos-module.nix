@@ -4,35 +4,23 @@ let
     cfg = config.services.pvpgn;
     generators = lib.generators;
 
-      mkValueStringPVPGN = {}: v:
-        let err = t: v: abort
-            ("generators.mkValueStringDefault: " +
-            "${t} not supported: ${toPretty {} v}");
-            in   if isInt      v then toString v
-            # convert derivations to store paths
-            else if isDerivation v then toString v
-            # we default to not quoting strings
-            else if isString   v then v
-            # isString returns "1", which is not a good default
-            else if true  ==   v then "true"
-            # here it returns to "", which is even less of a good default
-            else if false ==   v then "false"
-            else if null  ==   v then "null"
-            # if you have lists you probably want to replace this
-            else if isList     v then err "lists" v
-            # same as for lists, might want to replace
-            else if isAttrs    v then err "attrsets" v
-            # functions can’t be printed of course
-            else if isFunction v then err "functions" v
-            # Floats currently can't be converted to precise strings,
-            # condition warning on nix version once this isn't a problem anymore
-            # See https://github.com/NixOS/nix/pull/3480
-            else if isFloat    v then floatToString v
-            else err "this value is" (toString v);
 
     toConf = generators.toKeyValue {
-      mkKeyValue = mkKeyValueDefault {} " = ";
-      mkValueString = mkValueStringPVPGN;
+      mkKeyValue = generators.mkKeyValueDefault {
+        mkValueString = v:
+		    if lib.isInt      v then toString v
+		    # convert derivations to store paths
+		    else if lib.isDerivation v then toString v
+		    # we default to not quoting strings
+                    else if lib.isString v && lib.hasInfix " " v then "\"${v}\""
+		    else if lib.isString   v then v
+		    # isString returns "1", which is not a good default
+		    else if true  ==   v then "true"
+		    # here it returns to "", which is even less of a good default
+		    else if false ==   v then "false"
+		    else if null  ==   v then "null"
+                    else generators.mkValueStringDefault {} v;
+      } " = ";
     };
 in {
     options = {
@@ -81,25 +69,38 @@ in {
                 default = "sqlite3";
                 description = "The type of database that bnetd should connect to.";
             };
-
-            database.sqlitePath = lib.mkOption rec {
-                type = lib.types.str;
-                default = "/var/run/${name}/users.db";
-                description = "The type of database that bnetd should connect to.";
-            };
         };
     };
 
     config = lib.mkIf config.services.pvpgn.enable {
 
         environment.etc = {
+            bnissue = {
+              target = "pvpgn/bnissue.txt";
+              source = ./config/bnissue.txt;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            i18n = {
+              target = "pvpgn/i18n";
+              source = ./config/i18n;
+              user = cfg.user;
+              group = cfg.group;
+            };
+            all = {
+              target = "pvpgn";
+              source = ./config;
+              user = cfg.user;
+              group = cfg.group;
+            };
             bnetd = {
-                #target = config.services.pvpgn.bnetd.configFile;
                 target = "pvpgn/bnetd.conf";
+                user = cfg.user;
+                group = cfg.group;
                 text = toConf {
 
                   # Storage section
-                  storage_path = "sql:mode=sqlite3;name=${cfg.database.sqlitePath};default=0;prefix=pvpgn";
+                  storage_path = "sql:mode=sqlite3;name=${cfg.localStateDir}/users.db;default=0;prefix=pvpgn";
 
                   # File section
                   # variable
@@ -114,12 +115,12 @@ in {
                   ladderdir = "${cfg.localStateDir}/ladders";
                   statusdir = "${cfg.localStateDir}/status";
                   #pidfile = "${cfg.localStateDir}/bnetd.pid";
+                  ipbanfile = "${cfg.localStateDir}/bnban.conf"; # normally lives in etc but is written to
 
                   # static
                   issuefile = "${cfg.configDir}/bnissue.txt";
                   channelfile = "${cfg.configDir}/channel.conf";
                   adfile = "${cfg.configDir}/ad.json";
-                  ipbanfile = "${cfg.configDir}/bnban.conf";
                   mpqfile = "${cfg.configDir}/autoupdate.conf";
                   realmfile = "${cfg.configDir}/realm.conf";
                   versioncheck_file = "${cfg.configDir}/versioncheck.json";
