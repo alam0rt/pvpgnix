@@ -63,14 +63,16 @@ in {
         };
     };
 
+    bnetdConf = toConf {
+      storage_path = "foo";
+    };
+
     config = lib.mkIf config.services.pvpgn.enable {
 
         environment.etc = {
             bnetd: {
                 target = config.services.bnetd.configFile;
-                text = toConf {
-                    storage_path = "foo";
-                };
+                text = bnetdConf;
             };
         };
 
