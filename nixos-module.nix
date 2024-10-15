@@ -231,7 +231,6 @@ in {
                   reportdir = "${cfg.localStateDir}/reports";
                   chanlogdir = "${cfg.localStateDir}/chanlogs";
                   userlogdir = "${cfg.localStateDir}/userlogs";
-                  i18ndir = "${cfg.localStateDir}/i18n";
                   logfile = cfg.bnetd.logFile;
                   maildir = "${cfg.localStateDir}/bnmail";
                   ladderdir = "${cfg.localStateDir}/ladders";
@@ -240,6 +239,7 @@ in {
                   ipbanfile = "${cfg.localStateDir}/bnban.conf"; # normally lives in etc but is written to
 
                   # static
+                  i18ndir = "${cfg.configDir}/i18n";
                   issuefile = "${cfg.configDir}/bnissue.txt";
                   channelfile = "${cfg.configDir}/channel.conf";
                   adfile = "${cfg.configDir}/ad.json";
