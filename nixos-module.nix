@@ -76,7 +76,33 @@ in {
               default = builtins.readFile "${pvpgn}/etc/pvpgn/i18n/news.txt";
               description = "The news announcement displayed when a user logs in";
             };
-
+            tos = lib.mkOption {
+              type = lib.types.str;
+              default = builtins.readFile "${pvpgn}/etc/pvpgn/i18n/termsofservice.txt";
+              description = "Server terms of service";
+            };
+            motd = lib.mkOption {
+              type = lib.types.str;
+              default = builtins.readFile "${pvpgn}/etc/pvpgn/i18n/news.txt";
+              description = "Message of the day displayed to users";
+            };
+            newaccount = lib.mkOption {
+              type = lib.types.str;
+              default = builtins.readFile "${pvpgn}/etc/pvpgn/i18n/newaccount.txt";
+              description = "The message displayed when a new user is created";
+            };
+            wc3 = {
+              chathelp = lib.mkOption {
+                type = lib.types.str;
+                default = builtins.readFile "${pvpgn}/etc/pvpgn/i18n/chathelp-war3.txt";
+                description = "Message returned when running /help";
+              };
+              motd = lib.mkOption {
+                type = lib.types.str;
+                default = builtins.readFile "${pvpgn}/etc/pvpgn/i18n/w3motd.txt";
+                description = "Message of the day when user log in";
+              };
+            };
             database.type = lib.mkOption {
                 type = lib.types.str;
                 default = "sqlite3";
@@ -102,13 +128,13 @@ in {
             };
             motdfile = {
               target = "pvpgn/i18n/bnmotd.txt";
-              source = "${pvpgn}/etc/pvpgn/i18n/bnmotd.txt";
+              text = cfg.motd;
               user = cfg.user;
               group = cfg.group;
             };
             chathelpw3file = {
               target = "pvpgn/i18n/chathelp-war3.txt";
-              source = "${pvpgn}/etc/pvpgn/i18n/chathelp-war3.txt";
+              text = cfg.wc3.chathelp;
               user = cfg.user;
               group = cfg.group;
             };
@@ -120,25 +146,25 @@ in {
             };
             newaccountfile = {
               target = "pvpgn/i18n/newaccount.txt";
-              source = "${pvpgn}/etc/pvpgn/i18n/newaccount.txt";
+              text = cfg.newaccount;
               user = cfg.user;
               group = cfg.group;
             };
             newsfile = {
               target = "pvpgn/i18n/news.txt";
-              source = "${pvpgn}/etc/pvpgn/i18n/news.txt";
+              text = cfg.news;
               user = cfg.user;
               group = cfg.group;
             };
             tosfile = {
               target = "pvpgn/i18n/termsofservice.txt";
-              source = "${pvpgn}/etc/pvpgn/i18n/termsofservice.txt";
+              text = cfg.tos;
               user = cfg.user;
               group = cfg.group;
             };
             motdw3file = {
               target = "pvpgn/i18n/w3motd.txt";
-              source = "${pvpgn}/etc/pvpgn/i18n/w3motd.txt";
+              text = cfg.wc3.motd;
               user = cfg.user;
               group = cfg.group;
             };
