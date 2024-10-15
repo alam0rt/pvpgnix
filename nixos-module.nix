@@ -34,6 +34,11 @@ in {
                 default = "/var/run/${name}";
             };
 
+            configDir = lib.mkOption {
+                type = lib.types.str;
+                default = "/etc/${name}";
+            };
+
             openFirewall = lib.mkEnableOption "Allow PVPGN through the firewall.";
 
             bnetd = {
@@ -65,8 +70,138 @@ in {
                 #target = config.services.pvpgn.bnetd.configFile;
                 target = "pvpgn/bnetd.conf";
                 text = toConf {
-                  storage_path = "foo";
+
+                  # Storage section
+                  storage_path = "sql:mode=sqlite3;name=${cfg.database.sqlitePath};default=0;prefix=pvpgn";
+
+                  # File section
+                  # variable
+                  filedir = "${cfg.localStateDir}/files";
+                  scriptdir = "${cfg.localStateDir}/lua";
+                  reportdir = "${cfg.localStateDir}/reports";
+                  chanlogdir = "${cfg.localStateDir}/chanlogs";
+                  userlogdir = "${cfg.localStateDir}/userlogs";
+                  i18ndir = "${cfg.localStateDir}/i18n";
                   logfile = cfg.bnetd.logFile;
+                  maildir = "${cfg.localStateDir}/bnmail";
+                  ladderdir = "${cfg.localStateDir}/ladders";
+                  statusdir = "${cfg.localStateDir}/status";
+                  #pidfile = "${cfg.localStateDir}/bnetd.pid";
+
+                  # static
+                  issuefile = "${cfg.configDir}/bnissue.txt";
+                  channelfile = "${cfg.configDir}/channel.conf";
+                  adfile = "${cfg.configDir}/ad.json";
+                  topicfile = "${cfg.configDir}/topics.conf";
+                  ipbanfile = "${cfg.configDir}/bnban.conf";
+                  mpqfile = "${cfg.configDir}/autoupdate.conf";
+                  realmfile = "${cfg.configDir}/realm.conf";
+                  versioncheck_file = "${cfg.configDir}/versioncheck.json";
+                  mapsfile = "${cfg.configDir}/bnmaps.conf";
+                  xplevelfile = "${cfg.configDir}/bnxplevel.conf";
+                  xpcalcfile = "${cfg.configDir}/bnxpcalc.conf";
+                  topicfile = "${cfg.configDir}/topics.conf";
+                  command_groups_file = "${cfg.configDir}/command_groups.conf";
+                  tournament_file = "${cfg.configDir}/tournament.conf";
+                  aliasfile = "${cfg.configDir}/bnalias.conf";
+                  anongame_infos_file = "${cfg.configDir}/anongame_infos.conf";
+                  DBlayoutfile = "${cfg.configDir}/sql_DB_layout.conf";
+                  supportfile = "${cfg.configDir}/supportfile.conf";
+                  transfile = "${cfg.configDir}/address_translation.conf";
+                  customicons_file = "${cfg.configDir}/icons.conf";
+
+                  # Localised files realm server settings
+                  localizefile = "common.xml";
+                  motdfile    = "bnmotd.txt";
+                  motdw3file  = "w3motd.txt";
+                  newsfile    = "news.txt";
+                  helpfile    = "bnhelp.conf";
+                  tosfile     = "termsofservice.txt";
+                  localize_by_country = true;
+
+                  # the rest
+                  loglevels = "fatal,error,warn,info,debug,trace";
+                  d2cs_version = 0;
+                  allow_d2cs_setname = true;
+                  iconfile = "icons.bni";
+                  war3_iconfile = "icons-WAR3.bni";
+                  star_iconfile = "icons_STAR.bni";
+                  allowed_clients = "all";
+                  allow_bad_version = true;
+                  allow_unknown_version = true;
+                  usersync  = 300;
+                  userflush = 3600;
+                  userstep = 100;
+                  userflush_connected = true;
+                  latency = 600;
+                  nullmsg = 120;
+                  shutdown_delay = 300;
+                  shutdown_decr = 60;
+                  new_accounts = true;
+                  max_accounts = 0;
+                  kick_old_login = true;
+                  ask_new_channel = true;
+                  report_all_games = true;
+                  report_diablo_games = false;
+                  hide_pass_games = true;
+                  hide_started_games = true;
+                  hide_temp_channels = true;
+                  disc_is_loss = false;
+                  ladder_games = "none";
+                  ladder_prefix = "";
+                  enable_conn_all = true;
+                  hide_addr = false;
+                  chanlog = false;
+                  quota = yes;
+                  quota_lines = 5;
+                  quota_time = 5;
+                  quota_wrapline = 40;
+                  quota_maxline = 200;
+                  quota_dobae = 10;
+                  mail_support = true;
+                  mail_quota = 5;
+                  log_notice = "*** Please note this channel is logged! ***";
+                  passfail_count = 0;
+                  passfail_bantime = 300;
+                  maxusers_per_channel = 0;
+                  savebyname = true;
+                  sync_on_logoff = false;
+                  hashtable_size = 61;
+                  account_allowed_symbols = "-_[]";
+                  account_force_username = false;
+                  max_friends = 20;
+                  track = 0;
+                  trackaddrs = "track.pvpgn.org,bntrack.darkwings.org,bnet.mivabe.nl,track.eurobattle.net";
+                  location = "unknown";
+                  description = "unknown";
+                  url = "https://github.com/pvpgn/pvpgn-server";
+                  contact_name = "a PvPGN user";
+                  contact_email = "unknown";
+                  max_connections = 1000;
+                  packet_limit = 1000;
+                  max_concurrent_logins = 0;
+                  use_keepalive = false;
+                  max_conns_per_IP = 0;
+                  servaddrs = ":";
+                  w3routeaddr = "0.0.0.0:6200";
+                  initkill_timer = 120;
+                  woltimezone = "-8";
+                  wollongitude = "36.1083";
+                  wollatitude = "-115.0582";
+                  wol_autoupdate_serverhost = "westwood-patch.ea.com";
+                  wol_autoupdate_username = "update";
+                  wol_autoupdate_password = "world96";
+                  war3_ladder_update_secs = 300;
+                  XML_output_ladder = false;
+                  output_update_secs = 60;
+                  XML_status_output = false;
+                  clan_newer_time = 0;
+                  clan_max_members = 50;
+                  clan_channel_default_private = 0;
+                  clan_min_invites = 2;
+                  log_commands = true;
+                  log_command_groups = 2345678;
+                  log_command_list = "";
                 };
             };
         };
