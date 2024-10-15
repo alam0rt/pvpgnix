@@ -59,7 +59,12 @@ in {
             openFirewall = lib.mkEnableOption "Allow PVPGN through the firewall.";
 
             bnetd = {
-              logFile = lib.mkOption rec {
+              servername = lib.mkOption {
+                type = lib.types.str;
+                default = "PvPGN Realm";
+                description = "Servername by which the server identifies itself.";
+              };
+              logFile = lib.mkOption {
                 type = lib.types.str;
                 default = "/dev/stdout";
                 description = "Path to the log file for pvpgn. Use stdout to print into the journal";
@@ -72,7 +77,7 @@ in {
               description = "The news announcement displayed when a user logs in";
             };
 
-            database.type = lib.mkOption rec {
+            database.type = lib.mkOption {
                 type = lib.types.str;
                 default = "sqlite3";
                 description = "The type of database that bnetd should connect to.";
@@ -85,121 +90,163 @@ in {
         environment.etc = {
             bnissue = {
               target = "pvpgn/bnissue.txt";
-              source = ./config/bnissue.txt;
+              source = "${pvpgn}/etc/pvpgn/bnissue.txt";
               user = cfg.user;
               group = cfg.group;
             };
-            i18n = {
-              target = "pvpgn/i18n";
-              source = ./config/i18n;
+            i18n_bnhelp = {
+              target = "pvpgn/i18n/bnhelp.conf";
+              source = "${pvpgn}/etc/pvpgn/i18n/bnhelp.conf";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            motdfile = {
+              target = "pvpgn/i18n/bnmotd.txt";
+              source = "${pvpgn}/etc/pvpgn/i18n/bnmotd.txt";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            chathelpw3file = {
+              target = "pvpgn/i18n/chathelp-war3.txt";
+              source = "${pvpgn}/etc/pvpgn/i18n/chathelp-war3.txt";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            localizefile = {
+              target = "pvpgn/i18n/common.xml";
+              source = "${pvpgn}/etc/pvpgn/i18n/common.xml";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            newaccountfile = {
+              target = "pvpgn/i18n/newaccount.txt";
+              source = "${pvpgn}/etc/pvpgn/i18n/newaccount.txt";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            newsfile = {
+              target = "pvpgn/i18n/news.txt";
+              source = "${pvpgn}/etc/pvpgn/i18n/news.txt";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            tosfile = {
+              target = "pvpgn/i18n/termsofservice.txt";
+              source = "${pvpgn}/etc/pvpgn/i18n/termsofservice.txt";
+              user = cfg.user;
+              group = cfg.group;
+            };
+            motdw3file = {
+              target = "pvpgn/i18n/w3motd.txt";
+              source = "${pvpgn}/etc/pvpgn/i18n/w3motd.txt";
               user = cfg.user;
               group = cfg.group;
             };
             address_translation = {
               target = "pvpgn/address_translation.conf";
-              source = ./config/address_translation.conf;
+              source = "${pvpgn}/etc/pvpgn/address_translation.conf";
               user = cfg.user;
               group = cfg.group;
             };
             anongame_infos = {
               target = "pvpgn/anongame_infos.conf";
-              source = ./config/anongame_infos.conf;
+              source = "${pvpgn}/etc/pvpgn/anongame_infos.conf";
               user = cfg.user;
               group = cfg.group;
             };
             bnmaps = {
               target = "pvpgn/bnmaps.conf";
-              source = ./config/bnmaps.conf;
+              source = "${pvpgn}/etc/pvpgn/bnmaps.conf";
               user = cfg.user;
               group = cfg.group;
             };
             d2dbs = {
               target = "pvpgn/d2dbs.conf";
-              source = ./config/d2dbs.conf;
+              source = "${pvpgn}/etc/pvpgn/d2dbs.conf";
               user = cfg.user;
               group = cfg.group;
             };
             icons = {
               target = "pvpgn/icons.conf";
-              source = ./config/icons.conf;
+              source = "${pvpgn}/etc/pvpgn/icons.conf";
               user = cfg.user;
               group = cfg.group;
             };
             sql_DB_layout = {
               target = "pvpgn/sql_DB_layout.conf";
-              source = ./config/sql_DB_layout.conf;
+              source = "${pvpgn}/etc/pvpgn/sql_DB_layout.conf";
               user = cfg.user;
               group = cfg.group;
             };
             bnxplevel = {
               target = "pvpgn/bnxplevel.conf";
-              source = ./config/bnxplevel.conf;
+              source = "${pvpgn}/etc/pvpgn/bnxplevel.conf";
               user = cfg.user;
               group = cfg.group;
             };
             bnxpcalc = {
               target = "pvpgn/bnxpcalc.conf";
-              source = ./config/bnxpcalc.conf;
+              source = "${pvpgn}/etc/pvpgn/bnxpcalc.conf";
               user = cfg.user;
               group = cfg.group;
             };
             d2cs = {
               target = "pvpgn/d2cs.conf";
-              source = ./config/d2cs.conf;
+              source = "${pvpgn}/etc/pvpgn/d2cs.conf";
               user = cfg.user;
               group = cfg.group;
             };
             bnetd_default_user = {
               target = "pvpgn/bnetd_default_user.plain";
-              source = ./config/bnetd_default_user.plain;
+              source = "${pvpgn}/etc/pvpgn/bnetd_default_user.plain";
               user = cfg.user;
               group = cfg.group;
             };
             realm = {
               target = "pvpgn/realm.conf";
-              source = ./config/realm.conf;
+              source = "${pvpgn}/etc/pvpgn/realm.conf";
               user = cfg.user;
               group = cfg.group;
             };
             command_groups = {
               target = "pvpgn/command_groups.conf";
-              source = ./config/command_groups.conf;
+              source = "${pvpgn}/etc/pvpgn/command_groups.conf";
               user = cfg.user;
               group = cfg.group;
             };
             ad = {
               target = "pvpgn/ad.json";
-              source = ./config/ad.json;
+              source = "${pvpgn}/etc/pvpgn/ad.json";
               user = cfg.user;
               group = cfg.group;
             };
             autoupdate = {
               target = "pvpgn/autoupdate.conf";
-              source = ./config/autoupdate.conf;
+              source = "${pvpgn}/etc/pvpgn/autoupdate.conf";
               user = cfg.user;
               group = cfg.group;
             };
             tournament = {
               target = "pvpgn/tournament.conf";
-              source = ./config/tournament.conf;
+              source = "${pvpgn}/etc/pvpgn/tournament.conf";
               user = cfg.user;
               group = cfg.group;
             };
             supportfile = {
               target = "pvpgn/supportfile.conf";
-              source = ./config/supportfile.conf;
+              source = "${pvpgn}/etc/pvpgn/supportfile.conf";
               user = cfg.user;
               group = cfg.group;
             };
             versioncheck = {
               target = "pvpgn/versioncheck.json";
-              source = ./config/versioncheck.json;
+              source = "${pvpgn}/etc/pvpgn/versioncheck.json";
               user = cfg.user;
               group = cfg.group;
             };
             topics = {
               target = "pvpgn/topics.conf";
-              source = ./config/topics.conf;
+              source = "${pvpgn}/etc/pvpgn/topics.conf";
               user = cfg.user;
               group = cfg.group;
             };
@@ -211,13 +258,13 @@ in {
             };
             channel = {
               target = "pvpgn/channel.conf";
-              source = ./config/channel.conf;
+              source = "${pvpgn}/etc/pvpgn/channel.conf";
               user = cfg.user;
               group = cfg.group;
             };
             bnban = {
               target = "pvpgn/bnban.conf";
-              source = ./config/bnban.conf;
+              source = "${pvpgn}/etc/pvpgn/bnban.conf";
               user = cfg.user;
               group = cfg.group;
             };
@@ -226,6 +273,10 @@ in {
                 user = cfg.user;
                 group = cfg.group;
                 text = toConf {
+
+                  # general
+                  servername = cfg.bnetd.servername;
+                  logfile = cfg.bnetd.logFile;
 
                   # Storage section
                   storage_path = "sql:mode=sqlite3;name=${cfg.localStateDir}/users.db;default=0;prefix=pvpgn";
@@ -237,7 +288,6 @@ in {
                   reportdir = "${cfg.localStateDir}/reports";
                   chanlogdir = "${cfg.localStateDir}/chanlogs";
                   userlogdir = "${cfg.localStateDir}/userlogs";
-                  logfile = cfg.bnetd.logFile;
                   maildir = "${cfg.localStateDir}/bnmail";
                   ladderdir = "${cfg.localStateDir}/ladders";
                   statusdir = "${cfg.localStateDir}/status";
@@ -272,7 +322,7 @@ in {
                   newsfile    = "news.txt";
                   helpfile    = "bnhelp.conf";
                   tosfile     = "termsofservice.txt";
-                  localize_by_country = true;
+                  localize_by_country = false; # i don't care
 
                   # the rest
                   loglevels = "fatal,error,warn,info,debug,trace";
@@ -365,7 +415,7 @@ in {
             after = ["network.target"];
             enable = true;
             serviceConfig = {
-              ExecStart = "${cfg.package}/sbin/bnetd -f -c /etc/pvpgn/bnetd.conf";
+              ExecStart = "${pvpgn}/sbin/bnetd -f -c /etc/pvpgn/bnetd.conf";
               User = config.services.pvpgn.user;
               Group = config.services.pvpgn.group;
             };
