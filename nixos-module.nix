@@ -444,6 +444,7 @@ in {
               ExecStart = "${pvpgn}/sbin/bnetd -f -c /etc/pvpgn/bnetd.conf";
               User = config.services.pvpgn.user;
               Group = config.services.pvpgn.group;
+              Restart = "always";
               X-Restart-Triggers = [ 
                 "${config.environment.etc."newsfile".source}" 
                 "${config.environment.etc."motdfile".source}" 
