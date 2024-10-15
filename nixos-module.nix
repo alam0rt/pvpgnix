@@ -34,19 +34,14 @@ in {
                 default = "/var/run/${name}";
             };
 
-            logFile = lib.mkOption rec {
-                type = lib.types.str;
-                default = "/dev/stdout";
-                description = "Path to the log file for pvpgn. Use stdout to print into the journal";
-            };
-
             openFirewall = lib.mkEnableOption "Allow PVPGN through the firewall.";
 
             bnetd = {
-                configFile = lib.mkOption {
-                  type = lib.types.str;
-                  default = "/etc/pvpgn/bnetd.conf";
-                };
+              logFile = lib.mkOption rec {
+                type = lib.types.str;
+                default = "/dev/stdout";
+                description = "Path to the log file for pvpgn. Use stdout to print into the journal";
+              };
             };
 
             database.type = lib.mkOption rec {
@@ -57,22 +52,22 @@ in {
 
             database.sqlitePath = lib.mkOption rec {
                 type = lib.types.str;
-                default = "${localusers.db";
+                default = "/var/run/${name}/users.db";
                 description = "The type of database that bnetd should connect to.";
             };
         };
     };
 
-    bnetdConf = toConf {
-      storage_path = "foo";
-    };
-
     config = lib.mkIf config.services.pvpgn.enable {
 
         environment.etc = {
-            bnetd: {
-                target = config.services.bnetd.configFile;
-                text = bnetdConf;
+            bnetd = {
+                #target = config.services.pvpgn.bnetd.configFile;
+                target = "pvpgn/bnetd.conf";
+                text = toConf {
+                  storage_path = "foo";
+                  logfile = cfg.bnetd.logFile;
+                };
             };
         };
 
@@ -80,7 +75,7 @@ in {
             after = ["network.target"];
             enable = true;
             serviceConfig = {
-              ExecStart = "${cfg.package}/sbin/bnetd -f -c ${config.services.pvpgn.bnetd.configFile}";
+              ExecStart = "${cfg.package}/sbin/bnetd -f -c /etc/pvpgn/bnetd.conf";
               User = config.services.pvpgn.user;
               Group = config.services.pvpgn.group;
             };
