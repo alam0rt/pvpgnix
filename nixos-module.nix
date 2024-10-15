@@ -119,7 +119,6 @@ in {
                   issuefile = "${cfg.configDir}/bnissue.txt";
                   channelfile = "${cfg.configDir}/channel.conf";
                   adfile = "${cfg.configDir}/ad.json";
-                  topicfile = "${cfg.configDir}/topics.conf";
                   ipbanfile = "${cfg.configDir}/bnban.conf";
                   mpqfile = "${cfg.configDir}/autoupdate.conf";
                   realmfile = "${cfg.configDir}/realm.conf";
@@ -179,7 +178,7 @@ in {
                   enable_conn_all = true;
                   hide_addr = false;
                   chanlog = false;
-                  quota = yes;
+                  quota = "yes";
                   quota_lines = 5;
                   quota_time = 5;
                   quota_wrapline = 40;
