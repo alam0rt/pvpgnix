@@ -69,6 +69,27 @@ in {
                 default = "/var/log/bnetd.log";
                 description = "Path to the log file for pvpgn. Use stdout to print into the journal";
               };
+              logLevels = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [
+                  "fatal"
+                  "error"
+                  "warn"
+                  "info"
+                  "debug"
+                  "trace"
+                ];
+                description = ''
+                  Available loglevels are:
+                    none
+                    trace
+                    debug
+                    info
+                    warn
+                    error
+                    fatal
+                '';
+              };
             };
 
             news = lib.mkOption {
@@ -303,6 +324,7 @@ in {
                   # general
                   servername = cfg.bnetd.servername;
                   logfile = cfg.bnetd.logFile;
+                  loglevels = (lib.strings.concatStringsSep "," cfg.bnetd.logLevels);
 
                   # Storage section
                   storage_path = "sql:mode=sqlite3;name=${cfg.localStateDir}/users.db;default=0;prefix=pvpgn";
@@ -351,7 +373,6 @@ in {
                   localize_by_country = false; # i don't care
 
                   # the rest
-                  loglevels = "fatal,error,warn,info,debug,trace";
                   d2cs_version = 0;
                   allow_d2cs_setname = true;
                   iconfile = "icons.bni";
